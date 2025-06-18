@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.*;
 
 
 /**
@@ -27,6 +28,7 @@ public class Tela extends JFrame{
     private JLabel txtCid;
     private JLabel regCidade;
     private JButton btnNovoRegistro;
+    private DefaultTableModel model;
 
     public Tela(){
 
@@ -40,13 +42,20 @@ public class Tela extends JFrame{
     txtEstado = new JLabel("Estado");
     listaEstado = new JComboBox<>(Constante.ESTADOS);
     btnLocalizar = new JButton("Localizar");
-    tblInfos = new JTable();
-
+    
     jpTable.add(txtEstado);
     jpTable.add(listaEstado);
     jpTable.add(btnLocalizar);
-    jpTable.add(tblInfos);
     add(jpTable, BorderLayout.NORTH);
+    
+    //Criar o modelo de tabela
+    model = new DefaultTableModel();
+    model.addColumn("Nome");
+    model.addColumn("Idade");
+    model.addColumn("Cidade");
+    tblInfos = new JTable(model);
+    JScrollPane jScrollPane = new JScrollPane(tblInfos);
+    add(jScrollPane, BorderLayout.CENTER);
     
     jpInfos = new JPanel();
     jpInfos.setLayout(new GridLayout(4, 3));
@@ -65,16 +74,16 @@ public class Tela extends JFrame{
     jpInfos.add(txtCid);
     jpInfos.add(regCidade);
     jpInfos.add(btnNovoRegistro);
-    add(jpInfos, BorderLayout.CENTER);
-
+    add(jpInfos, BorderLayout.SOUTH);
     }
     
     public void adicionarRegistro(ActionEvent e){
         
         try {
-            TelaAdd telaAdd = new TelaAdd();
+            TelaAdd telaAdd = new TelaAdd(model);
             telaAdd.setVisible(true);
         } catch (Exception ev) {
+            ev.printStackTrace();
         }
         
     }
