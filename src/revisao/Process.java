@@ -54,7 +54,33 @@ public class Process {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             
-        }
-        
+        }   
     }
+    
+    public void carregarDadosTabelaPorEstado(DefaultTableModel model, String estado){
+        String sql = "SELECT nome, telefone, cidade FROM agenda WHERE uf = ?;";
+        
+        model.setRowCount(0);
+        
+        try (Connection conexao = ConexaoBanco.abreConexao();
+             PreparedStatement pst = conexao.prepareStatement(sql)) {
+            
+            pst.setString(1, estado);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            while (rs.next()){
+                String nome = rs.getString("nome");
+                String telefone = rs.getString("telefone");
+                String cidade = rs.getString("cidade");
+            
+                model.addRow(new Object[]{nome, telefone, cidade});
+            }
+            
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            
+        }
+    }
+    
 }

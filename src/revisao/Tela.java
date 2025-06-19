@@ -30,6 +30,8 @@ public class Tela extends JFrame{
     private JButton btnNovoRegistro;
     private DefaultTableModel model;
 
+    Process process = new Process();
+    
     public Tela(){
 
     setTitle("revisao prova");
@@ -42,6 +44,7 @@ public class Tela extends JFrame{
     txtEstado = new JLabel("Estado");
     listaEstado = new JComboBox<>(Constante.ESTADOS);
     btnLocalizar = new JButton("Localizar");
+    btnLocalizar.addActionListener(e -> buscaPorEstado(e));
     
     jpTable.add(txtEstado);
     jpTable.add(listaEstado);
@@ -54,6 +57,14 @@ public class Tela extends JFrame{
     model.addColumn("Idade");
     model.addColumn("Cidade");
     tblInfos = new JTable(model);
+    
+    tblInfos.addMouseListener(new MouseAdapter(){
+        @Override
+        public void mouseClicked(MouseEvent e){
+            gravarRegistros(e);
+        }
+    });
+    
     JScrollPane jScrollPane = new JScrollPane(tblInfos);
     add(jScrollPane, BorderLayout.CENTER);
     
@@ -62,9 +73,9 @@ public class Tela extends JFrame{
     txtNome = new JLabel("Nome:");
     regNome = new JLabel("Eu");
     txtTelefone = new JLabel("Telefone:");
-    regTelefone = new JLabel("999999999");
-    txtCid = new JLabel("Cidade:");
-    regCidade = new JLabel("SANTA CITY");
+    regTelefone = new JLabel();
+    txtCid = new JLabel();
+    regCidade = new JLabel();
     btnNovoRegistro = new JButton("Novo registro");
     btnNovoRegistro.addActionListener(e -> adicionarRegistro(e));
     jpInfos.add(txtNome);
@@ -88,4 +99,31 @@ public class Tela extends JFrame{
         
     }
     
+    public void buscaPorEstado(ActionEvent e){
+        String estado = listaEstado.getSelectedItem().toString();
+        
+        try {
+            
+            process.carregarDadosTabelaPorEstado(model, estado);
+           
+        } catch (Exception ev) {
+            ev.printStackTrace();
+        }
+    }
+    
+    public void gravarRegistros(MouseEvent e){
+        int linhaSelecionada = tblInfos.getSelectedRow();
+        
+        if (linhaSelecionada != -1) {
+            Object valorCol0 = tblInfos.getValueAt(linhaSelecionada, 0);
+            Object valorCol1 = tblInfos.getValueAt(linhaSelecionada, 1);
+            Object valorCol2 = tblInfos.getValueAt(linhaSelecionada, 2);
+            
+            regNome.setText(valorCol0.toString());
+            regTelefone.setText(valorCol1.toString());
+            regCidade.setText(valorCol2.toString());
+        }
+        
+        
+    }
 }
