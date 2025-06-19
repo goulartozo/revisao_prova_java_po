@@ -40,7 +40,8 @@ public class TelaAdd extends JFrame {
         setLayout(new BorderLayout());
 
         jPanel = new JPanel();
-        jPanel.setLayout(new GridLayout(5,2));
+        jPanel.setLayout(new GridLayout(5,2, 10, 10));
+        jPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         txtNome = new JLabel("Nome:");
         jtfNome = new JTextField(20);
         txtTelefone = new JLabel("Telefone:");

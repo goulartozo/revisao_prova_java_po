@@ -69,12 +69,13 @@ public class Tela extends JFrame{
     add(jScrollPane, BorderLayout.CENTER);
     
     jpInfos = new JPanel();
-    jpInfos.setLayout(new GridLayout(4, 3));
+    jpInfos.setLayout(new GridLayout(4, 3, 10, 10));
+    jpInfos.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     txtNome = new JLabel("Nome:");
-    regNome = new JLabel("Eu");
+    regNome = new JLabel();
     txtTelefone = new JLabel("Telefone:");
     regTelefone = new JLabel();
-    txtCid = new JLabel();
+    txtCid = new JLabel("Cidade");
     regCidade = new JLabel();
     btnNovoRegistro = new JButton("Novo registro");
     btnNovoRegistro.addActionListener(e -> adicionarRegistro(e));
